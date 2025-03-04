@@ -1,104 +1,51 @@
-import React, { useState } from "react";
-import "./App.css";
+import React, { useState } from 'react';
+import './App.css';
 
 function App() {
-  const [input, setInput] = useState("");
-  const [result, setResult] = useState(null);
+  const [showModal, setShowModal] = useState(true);
+  const [userData, setUserData] = useState({ name: '', phone: '', email: '', city: '' });
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-const handleInput = (value) => {
-  setInput((prev) => {
-    // Проверяем, является ли последний символ оператором
-    if (["+", "-", "*", "/"].includes(prev.slice(-1)) && ["+", "-", "*", "/"].includes(value)) {
-      return prev; // Игнорируем повторный оператор
-    }
-    return prev + value;
-  });
-};
-
-
-  //Очистка экрана
-  const clearInput = () => {
-    setInput("");
-    setResult(null);
+  const handleChange = (e) => {
+    setUserData({ ...userData, [e.target.name]: e.target.value });
   };
 
-  //Вычисление результата
-  const calculateResult = () => {
-    try {
-      setResult(Function(`return ${input}`)());
-    } catch {
-      setResult("Ошибка!");
-    }
+  const handleSubmit = () => {
+    setShowModal(false);
+    setIsLoggedIn(true);
   };
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>React Калькулятор</h1>
-        <div style={styles.container}>
-          <div style={styles.display}>
-            <p>{input || "0"}</p>
-            <p>{result !== null ? `= ${result}` : ""}</p>
-          </div>
-          <div style={styles.buttons}>
-            {["7", "8", "9", "/", "4", "5", "6", "*", "1", "2", "3", "-", "0", ".", "=", "+"].map((char) => (
-              <button
-                key={char}
-                onClick={() => (char === "=" ? calculateResult() : handleInput(char))}
-                style={styles.button}
-              >
-                {char}
-              </button>
-            ))}
-            <button onClick={clearInput} style={{ ...styles.button, ...styles.clearButton }}>C</button>
+    <div>
+      {showModal && (
+        <div className="modal">
+          <div className="modal-content">
+            <h2>Введите данные</h2>
+            <input type="text" name="name" placeholder="Имя" onChange={handleChange} />
+            <input type="text" name="phone" placeholder="Телефон" onChange={handleChange} />
+            <input type="email" name="email" placeholder="Email" onChange={handleChange} />
+            <input type="text" name="city" placeholder="Город" onChange={handleChange} />
+            <button onClick={handleSubmit}>Сохранить</button>
           </div>
         </div>
+      )}
+
+      <header className="header">
+        <h1>Книжный Магазин</h1>
       </header>
+
+      <nav className="nav-center">
+        <button className="nav-btn">Жанры</button>
+        <button className="nav-btn">Заказы</button>
+        <button className="nav-btn">Аудиокниги</button>
+      </nav>
+
+      {isLoggedIn && <div className="profile-container"><button className="profile-btn">Профиль</button></div>}
+
+      <div className="advertisement">Реклама</div>
+      <div className="support">Связаться с нами</div>
     </div>
   );
 }
-
-//Стили
-const styles = {
-  container: { 
-    textAlign: "center", 
-    maxWidth: "400px", 
-    margin: "20px auto", 
-    padding: "10px", 
-    border: "2px solid #333", 
-    backgroundColor: "#008000" //Зеленый фон калькулятора
-  },
-  display: { 
-    background: "#333", //Черный фон для экрана
-    color: "white", 
-    padding: "10px", 
-    minHeight: "40px", 
-    fontSize: "20px", 
-    textAlign: "right" 
-  },
-  buttons: { 
-    display: "grid", 
-    gridTemplateColumns: "repeat(4, 1fr)", 
-    gap: "5px", 
-    marginTop: "10px" 
-  },
-  button: { 
-    backgroundColor: "#333", //Черный фон для кнопок
-    color: "white", 
-    fontSize: "20px", 
-    border: "1px solid #444", 
-    padding: "15px", 
-    cursor: "pointer", 
-    transition: "background-color 0.3s"
-  },
-  buttonHover: { 
-    backgroundColor: "#555" 
-  },
-  clearButton: { 
-    gridColumn: "span 4", 
-    background: "red", 
-    color: "white" 
-  },
-};
 
 export default App;
