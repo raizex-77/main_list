@@ -121,7 +121,7 @@ body {
 }
 
 /* Блоки рекламы и поддержки */
-.advertisement, .support {
+.advertisement {
   text-align: center;
   background: rgba(255, 255, 255, 0.9);
   padding: 20px;
@@ -131,14 +131,25 @@ body {
   font-size: 18px;
 }
 
-/* Медиа-запрос для мобильных устройств */
-@media (max-width: 768px) {
-  .nav-center {
-    flex-direction: column;
-    align-items: center;
-  }
+/* Футер */
+.footer {
+  background-color: #f8f8f8;
+  padding: 15px;
+  text-align: center;
+  margin-top: 20px;
+}
 
-  .profile-container {
-    width: 80%;
-  }
+.footer-content {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.footer-content a {
+  color: #333;
+  text-decoration: none;
+}
+
+.footer-content a:hover {
+  text-decoration: underline;
 }
